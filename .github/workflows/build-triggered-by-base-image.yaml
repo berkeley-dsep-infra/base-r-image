@@ -1,4 +1,3 @@
-
 name: Update Base Image Reference
 on:
   repository_dispatch:
