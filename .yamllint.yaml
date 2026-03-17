@@ -1,4 +1,3 @@
-
 # This config represents running the command `yamllint -d relaxed .` with the
 # following extra rules:
 #
@@ -45,4 +44,3 @@ rules:
   trailing-spaces:
     level: warning
   truthy: disable
-
