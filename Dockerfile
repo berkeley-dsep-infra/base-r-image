@@ -3,6 +3,7 @@ FROM us-central1-docker.pkg.dev/ucb-datahub-2018/base-images-repo/base-python-im
 # -------------------------------
 # Environment for R
 # -------------------------------
+
 ENV R_LIBS_USER=/srv/r
 ENV CONDA_DIR=/srv/conda/envs/notebook
 # Add littler to PATH
