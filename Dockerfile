@@ -34,7 +34,6 @@ RUN apt-get update && \
 # -------------------------------
 ENV R_VERSION=4.4.2
 
-
 RUN wget --quiet -O /tmp/r-${R_VERSION}.deb \
     https://cdn.rstudio.com/r/ubuntu-$(. /etc/os-release && echo $VERSION_ID | sed 's/\.//')/pkgs/r-${R_VERSION}_1_amd64.deb && \
     apt install --yes --no-install-recommends /tmp/r-${R_VERSION}.deb > /dev/null && \
@@ -76,22 +75,6 @@ RUN mamba env update -n notebook -f /tmp/environment.yml && \
 
 USER root
 # -------------------------------
-# Desktop packages for R GUI
-# -------------------------------
-RUN apt-get update -qq --yes && \
-    apt-get install --yes -qq \
-        dbus-x11 \
-        xfce4 \
-        xfce4-panel \
-        xfce4-terminal \
-        xfce4-session \
-        xfce4-settings \
-        xorg \
-        xubuntu-icon-theme && \ 
-        apt-get clean && \
-        rm -rf /var/lib/apt/lists/*
-
-# -------------------------------
 # R environment tweaks
 # -------------------------------
 RUN mkdir -p ${R_LIBS_USER} && chown ${NB_USER}:${NB_USER} ${R_LIBS_USER}
@@ -99,9 +82,7 @@ RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /opt/R/${R_VERSION}/lib/R/etc/Renviron && 
     echo "R_LIBS_USER=${R_LIBS_USER}" >> /opt/R/${R_VERSION}/lib/R/etc/Renviron && \
     echo "TZ=${TZ}" >> /opt/R/${R_VERSION}/lib/R/etc/Renviron
 
-# -------------------------------
-# IRkernel
-# -------------------------------
+
 COPY Rprofile.site /opt/R/${R_VERSION}/lib/R/etc/Rprofile.site
 COPY rsession.conf /etc/rstudio/rsession.conf
 COPY rserver.conf /etc/rstudio/rserver.conf
