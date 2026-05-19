@@ -91,7 +91,7 @@ COPY rserver.conf /etc/rstudio/rserver.conf
 COPY file-locks /etc/rstudio/file-locks
 
 USER ${NB_USER}
-RUN R -e "install.packages('IRkernel', 'shiny')" && \
+RUN R -e "install.packages('IRkernel')" && \
     R -e "IRkernel::installspec(user = FALSE, prefix='${CONDA_DIR}/envs/notebook')"
 
 # -------------------------------
