@@ -13,21 +13,13 @@ ENV PATH="/usr/lib/rstudio-server/bin:${CONDA_DIR}/envs/notebook/bin:${CONDA_DIR
 # System packages for R
 # -------------------------------
 USER root
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        psmisc \
-        sudo \
-        libapparmor1 \
-        lsb-release \
-        libclang-dev \
-        libpq5 \
-        libgdal-dev \
-        libudunits2-0 \
-        libxml2 \
-        libcurl4-openssl-dev \
-        libzmq5 \
-        libzmq3-dev \
-        libssl-dev > /dev/null
+COPY apt.txt /tmp/apt.txt
+RUN apt-get -qq update --yes && \
+    apt-get -qq install --yes --no-install-recommends \
+        $(grep -v ^# /tmp/apt.txt) && \
+    apt-get -qq purge && \
+    apt-get -qq clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # -------------------------------
 # R installation
