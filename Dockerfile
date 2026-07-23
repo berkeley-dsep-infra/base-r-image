@@ -28,7 +28,8 @@ ENV R_VERSION=4.4.2
 
 RUN wget --quiet -O /tmp/r-${R_VERSION}.deb \
     https://cdn.rstudio.com/r/ubuntu-$(. /etc/os-release && echo $VERSION_ID | sed 's/\.//')/pkgs/r-${R_VERSION}_1_amd64.deb && \
-    apt install --yes --no-install-recommends /tmp/r-${R_VERSION}.deb > /dev/null && \
+    apt-get -qq update --yes && \
+    apt-get install --yes --no-install-recommends /tmp/r-${R_VERSION}.deb > /dev/null && \
     rm /tmp/r-${R_VERSION}.deb && \
     apt-get -qq purge && \
     apt-get -qq clean && \
