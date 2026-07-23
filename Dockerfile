@@ -1,5 +1,8 @@
 FROM us-central1-docker.pkg.dev/ucb-datahub-2018/base-images-repo/base-python-image:bbe5fda
 
+ARG SHINY_SERVER_DOWNLOAD_URL=https://download3.rstudio.org/ubuntu-20.04/x86_64/shiny-server-1.5.23.1030-amd64.deb
+ARG SHINY_SERVER_HASH=4a3d063a06ccd1b6c53eb1d7f4fb59965bced10d1c5c87e8c476b58dd6fd35ee
+
 # -------------------------------
 # Environment for R
 # -------------------------------
@@ -59,9 +62,9 @@ RUN apt-get update -qq > /dev/null && \
       RSTUDIO_HASH="052540a8df135d9ce7569ddc2fc9637671103934179691bc3e43298336fc3a8e" ; \
     fi && \
     curl --silent --location --fail "${RSTUDIO_URL}" -o /tmp/rstudio.deb && \
-    curl --silent --location --fail "https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.22.1017-amd64.deb" -o /tmp/shiny.deb && \
+    curl --silent --location --fail "${SHINY_SERVER_DOWNLOAD_URL}" -o /tmp/shiny.deb && \
     echo "${RSTUDIO_HASH} /tmp/rstudio.deb" | sha256sum -c - && \
-    echo "0fa40054f038de464a26f3f8c40180a072228454762b7a12ed50568b3256c236 /tmp/shiny.deb" | sha256sum -c - && \
+    echo "${SHINY_SERVER_HASH} /tmp/shiny.deb" | sha256sum -c - && \
     apt-get install -y --no-install-recommends /tmp/rstudio.deb /tmp/shiny.deb && \
     rm -f /tmp/*.deb && \
     apt-get purge -y && \
