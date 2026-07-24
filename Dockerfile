@@ -16,21 +16,13 @@ ENV PATH="/usr/lib/rstudio-server/bin:${CONDA_DIR}/envs/notebook/bin:${CONDA_DIR
 # System packages for R
 # -------------------------------
 USER root
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        psmisc \
-        sudo \
-        libapparmor1 \
-        lsb-release \
-        libclang-dev \
-        libpq5 \
-        libgdal-dev \
-        libudunits2-0 \
-        libxml2 \
-        libcurl4-openssl-dev \
-        libzmq5 \
-        libzmq3-dev \
-        libssl-dev > /dev/null
+COPY apt.txt /tmp/apt.txt
+RUN apt-get -qq update --yes && \
+    apt-get -qq install --yes --no-install-recommends \
+        $(grep -v ^# /tmp/apt.txt) && \
+    apt-get -qq purge && \
+    apt-get -qq clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # -------------------------------
 # R installation
@@ -39,7 +31,8 @@ ENV R_VERSION=4.4.2
 
 RUN wget --quiet -O /tmp/r-${R_VERSION}.deb \
     https://cdn.rstudio.com/r/ubuntu-$(. /etc/os-release && echo $VERSION_ID | sed 's/\.//')/pkgs/r-${R_VERSION}_1_amd64.deb && \
-    apt install --yes --no-install-recommends /tmp/r-${R_VERSION}.deb > /dev/null && \
+    apt-get -qq update --yes && \
+    apt-get install --yes --no-install-recommends /tmp/r-${R_VERSION}.deb > /dev/null && \
     rm /tmp/r-${R_VERSION}.deb && \
     apt-get -qq purge && \
     apt-get -qq clean && \
