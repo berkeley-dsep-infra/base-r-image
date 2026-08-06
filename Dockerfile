@@ -1,4 +1,4 @@
-FROM us-central1-docker.pkg.dev/ucb-datahub-2018/base-images-repo/base-python-image:bbe5fda
+FROM us-central1-docker.pkg.dev/ucb-datahub-2018/base-images-repo/base-python-image:846ebd8
 
 ARG SHINY_SERVER_DOWNLOAD_URL=https://download3.rstudio.org/ubuntu-20.04/x86_64/shiny-server-1.5.23.1030-amd64.deb
 ARG SHINY_SERVER_HASH=4a3d063a06ccd1b6c53eb1d7f4fb59965bced10d1c5c87e8c476b58dd6fd35ee
